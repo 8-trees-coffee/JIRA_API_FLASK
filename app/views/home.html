@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}
+Home - {{ super() }}
+{% endblock %}
+{% block content %}
+<div>
+    <div class="row">
+        <div class="col-4 text-left">
+            <p id="hit">number of hit: {{ len_issues }}</p>
+        </div>
+        <div class="col-8 text-right">
+            <a class="btn btn-secondary btn-sm update-btn" href="{{url_for('update_prev_prog', id=id)}}" role="button" onclick="return confirm('前回進捗率を更新しますか？')">
+                update prev prog rate
+            </a>
+        </div>
+    </div>
+    <table id="prog-table" class="table table-hover table-sm">
+        <caption>Progress Management Board of JIRA Issues</caption>
+        <thead class="p-head">
+            <tr>
+                <th scope="col">Key No</th>
+                <th scope="col">Summary</th>
+                <th scope="col">Prev Prog Rate</th>
+                <th scope="col">Prog Rate</th>
+                <th scope="col">Status</th>
+                <th scope="col">priority</th>
+                <th scope="col">duedate</th>
+                <th scope="col">Story Point</th>
+                <th scope="col">Assignee</th>
+                <th scope="col">Last Cmt</th>
+                <th scope="col">Cmt Updated</th>
+                <th scope="col">Prev Updated</th>
+                <th scope="col">Issue Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+        {%- for issue in issues -%}
+            <tr>
+                <th scope="row">
+                    <a href="{{ issue.url }}" target="_blank" rel="noopener noreferrer">
+                        {{ issue.key }}
+                    </a>
+                </th>
+                <td>{{ issue.summary }}</td>
+                <td>
+                    {%- for base_issue in base_issues -%}
+                        {%- if issue.key == base_issue.value['key'] -%}
+                            {{ base_issue.value['prev_progress'] }}
+                        {%- endif -%}
+                    {%- endfor -%}
+                </td>
+                <td>{{ issue.version }}</td>
+                <td>{{ issue.status }}</td>
+                <td>{{ issue.priority }}</td>
+                <td>{{ issue.duedate }}</td>
+                <td>{{ issue.story_point }}</td>
+                <td>{{ issue.assignee }}</td>
+                <td>{{ issue.comment }}</td>
+                <td>{{ issue.comment_updated }}</td>
+                <td>
+                    {%- for base_issue in base_issues -%}
+                        {%- if issue.key == base_issue.value['key'] -%}
+                            {{ base_issue.value['prev_updated'] }}
+                        {%- endif -%}
+                    {%- endfor -%}
+                </td>
+                <td>{{ issue.updated }}</td>
+            </tr>
+        {%- endfor -%}
+        </tbody>
+    </table>
+    <h1>Story Point</h1>
+    <div class="col-4">
+        <table class="table table-hover table-sm">
+            <thead class="p-head">
+                <tr>
+                    <th scope="col">Assignee</th>
+                    <th scope="col">Story Point</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                {%- for assignee, story_point in agn_story_point.items() -%}
+                    <td>{{ assignee }}</td>
+                    <td>{{ story_point }}</td>
+                {%- endfor -%}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

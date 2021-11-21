@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+Home - {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="login">
+  <h1>Login to JIRA</h1>
+  <form method="POST" action="/" enctype="multipart/form-data">
+    <p><input id="jira-id" type="text" name="login_id" value="" placeholder="JIRA ID"></p>
+    <p><input type="password" name="password" value="" placeholder="JIRA Password"></p>
+
+    <p class="submit"><input type="submit" name="commit" value="Login"></p>
+  </form>
+</div>
+{% endblock %}
