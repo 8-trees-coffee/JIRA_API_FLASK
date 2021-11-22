@@ -6,6 +6,10 @@ nav.navbar {
     background-color: rgb(29, 29, 248);
 }
 
+a.nav-link {
+    color: white;
+}
+
 a#title {
     color: white;
     font-weight: bold;
