@@ -34,6 +34,8 @@ Home - {{ super() }}
             </tr>
         </thead>
         <tbody>
+        <!-- if文追加 -->
+        {%- if issues -%}
         {%- for issue in issues -%}
             <tr>
                 <th scope="row">
@@ -67,6 +69,7 @@ Home - {{ super() }}
                 <td>{{ issue.updated }}</td>
             </tr>
         {%- endfor -%}
+        {%- endif -%}
         </tbody>
     </table>
     <h1>Story Point</h1>
@@ -79,12 +82,15 @@ Home - {{ super() }}
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- if文追加 -->
+                {%- if agn_story_point -%}
                 {%- for assignee, story_point in agn_story_point.items() -%}
+                <tr>
                     <td>{{ assignee }}</td>
                     <td>{{ story_point }}</td>
-                {%- endfor -%}
                 </tr>
+                {%- endfor -%}
+                {%- endif -%}
             </tbody>
         </table>
     </div>

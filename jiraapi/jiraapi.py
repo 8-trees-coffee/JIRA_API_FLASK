@@ -23,12 +23,11 @@ class APIClient(object):
 
     def access(self):
         try:
-            # id, pw も引数に入れる
             jira = JIRA(server=self.jira_server)
             logger.info({'id': self.id, 'pw': self.pw})
         except JIRAError as e:
             logger.error({'action': 'access', 'error': e})
-            return false
+            return False
         return jira
 
     def get_issues(self, limit=50):
@@ -64,7 +63,7 @@ class APIClient(object):
                 # duedate
                 if issue.fields.duedate:
                     duedate_dt = datetime.strptime(issue.fields.duedate, '%Y-%m-%dT%H:%M:%S.%f%z')
-                    duedate = datetime.strftime(updated_dt, '%m/%d')
+                    duedate = datetime.strftime(duedate_dt, '%m/%d')
                 else:
                     duedate = None
                 # assignee
