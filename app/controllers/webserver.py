@@ -28,7 +28,6 @@ def login():
     if request.method == 'POST':
         id = request.form["login_id"]
         pw = request.form["password"]
-        limit = 0
         app.logger.info({'id': id, 'pw': pw})
         jira = APIClient(id=id, pw=pw)
         if jira:
@@ -50,7 +49,7 @@ def login():
                     is_id.update_at = datetime.now()
                     is_id.save()
 
-            return redirect(url_for('home', id=id, limit=limit))
+            return redirect(url_for('home', id=id))
         else:
             app.logger.warning({'action': 'login', 'status': 'failed login'})
             return render_template('/login.html')
@@ -70,8 +69,12 @@ def home(id):
         #     limit = 50
         issues = jira.filter_issuetype_by_task(
                     jira.remove_closed_status(
-                        jira.get_issues(limit=limit)))
-        len_issues = len(issues)
+                        jira.get_issues()))
+        # << additional if condition >>
+        if issues:
+            len_issues = len(issues)
+        else:
+            len_issues = 0
         agn_story_point = jira.agn_story_point(issues)
         app.logger.info(f'agn_story_point: {agn_story_point}')
         base_issues = JiraIssue.get_all()
@@ -111,6 +114,22 @@ def update_prev_prog(id):
     else:
         app.logger.warning({'action': 'update_prev_prog', 'issues': None})
         return redirect(url_for('home', id=id))
+
+@app.errorhandler(401)
+def unauthorized_error(e):
+    return render_template('401.html'), 401
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('500.html'), 500
+
+@app.errorhandler(503)
+def service_unavailable(e):
+    return render_template('503.html'), 503
 
 def start():
     app.run(host='0.0.0.0', port=settings.web_port, threaded=True)
