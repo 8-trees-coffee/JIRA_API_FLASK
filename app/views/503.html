@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+503 - {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="err-page alert alert-danger" role="alert">
+    <h2>503 Service Unavailable</h2>
+    <p>JIRAログイン失敗が多い場合、キャプチャ認証を求められている可能性があります。</p>
+    <p>JIRAページへアクセスし、ログインしなおしてから、本サービスをご利用ください。</p>
+</div>
+{% endblock %}

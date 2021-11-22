@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+401 - {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="err-page alert alert-danger" role="alert">
+    <h2>401 Unauthorized Error</h2>
+    <p>JIRAの認証に失敗しました</p>
+    <p>IDもしくはPWが正しくありません。</p>
+    <a href="{{ url_for('login') }}">Topページ</a>
+</div>
+{% endblock %}
