@@ -2,8 +2,6 @@ import logging
 import sys
 from threading import Thread
 
-from app.models.issues import JiraIssue
-from jiraapi.jiraapi import APIClient
 from app.controllers.webserver import start
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
