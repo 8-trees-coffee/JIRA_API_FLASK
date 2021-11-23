@@ -29,7 +29,7 @@ a.update-btn {
 }
 
 table#prog-table {
-    font-size: 10.5pt;
+    font-size: 10pt;
 }
 
 table {
@@ -44,6 +44,31 @@ thead.p-head {
     color: white;
 }
 
+/* story point */
+
+table#story-point {
+    font-size: 10pt;
+    text-align: center;
+}
+
+ul#story-point {
+    background: #f1f8ff;
+    box-shadow: 0px 0px 0px 10px #f1f8ff;/*線の外側*/
+    border: dashed 2px #668ad8;/*破線*/
+    border-radius: 9px;
+    margin-left: 10px;/*はみ出ないように調整*/
+    margin-right: 10px;/*はみ出ないように調整*/
+    padding: 0.5em 0.5em 0.5em 2em;
+}
+
+ul#story-point li#story-point {
+    line-height: 1.5;
+    padding: 0.5em 0;
+    list-style: none;
+    font-size: 10pt;
+}
+
+/* Loading */
 .err-page {
   text-align: center;
 }
@@ -124,6 +149,7 @@ th.explo-viewpoint {
   }
 }
 
+/* Login page */
 .login {
   position: relative;
   margin: 30px auto;

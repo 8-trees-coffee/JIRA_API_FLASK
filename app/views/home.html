@@ -87,26 +87,38 @@ function send_limit() {
         </tbody>
     </table>
     <h1>Story Point</h1>
-    <div class="col-4">
-        <table class="table table-hover table-sm sort-table">
-            <thead class="p-head">
-                <tr>
-                    <th scope="col">Assignee</th>
-                    <th scope="col">Story Point</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- if文追加 -->
-                {%- if agn_story_point -%}
-                {%- for assignee, story_point in agn_story_point.items() -%}
-                <tr>
-                    <td>{{ assignee }}</td>
-                    <td>{{ story_point }}</td>
-                </tr>
-                {%- endfor -%}
-                {%- endif -%}
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-3">
+            <table id="story-point" class="table table-hover table-sm sort-table">
+                <thead class="p-head">
+                    <tr>
+                        <th scope="col">Assignee</th>
+                        <th scope="col">Story Point</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- if文追加 -->
+                    {%- if agn_story_point -%}
+                    {%- for assignee, story_point in agn_story_point.items() -%}
+                    <tr>
+                        <td>{{ assignee }}</td>
+                        <td>{{ story_point }}</td>
+                    </tr>
+                    {%- endfor -%}
+                    {%- endif -%}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2">
+            <ul id="story-point">
+                <li id="story-point">1: 非常に簡単</li>
+                <li id="story-point">2: 1日程度で終わる</li>
+                <li id="story-point">3: 2, 3日で終わる</li>
+                <li id="story-point">5: 1Wksくらいで終わる</li>
+                <li id="story-point">8: 2Wksくらいで終わる</li>
+                <li id="story-point">13: 2Wksでは終わらない</li>
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}
