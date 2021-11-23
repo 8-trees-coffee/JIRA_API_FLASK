@@ -3,6 +3,11 @@
 Home - {{ super() }}
 {% endblock %}
 {% block content %}
+<script type="text/javascript">
+$(function(){
+    $('.sort-table').tablesorter();
+});
+</script>
 <div>
     <div class="row">
         <div class="col-4 text-left">
@@ -14,7 +19,7 @@ Home - {{ super() }}
             </a>
         </div>
     </div>
-    <table id="prog-table" class="table table-hover table-sm">
+    <table id="prog-table" class="table table-hover table-sm sort-table">
         <caption>Progress Management Board of JIRA Issues</caption>
         <thead class="p-head">
             <tr>
@@ -38,11 +43,11 @@ Home - {{ super() }}
         {%- if issues -%}
         {%- for issue in issues -%}
             <tr>
-                <th scope="row">
+                <td style="font-weight: 900;">
                     <a href="{{ issue.url }}" target="_blank" rel="noopener noreferrer">
                         {{ issue.key }}
                     </a>
-                </th>
+                </td>
                 <td>{{ issue.summary }}</td>
                 <td>
                     {%- for base_issue in base_issues -%}
@@ -74,7 +79,7 @@ Home - {{ super() }}
     </table>
     <h1>Story Point</h1>
     <div class="col-4">
-        <table class="table table-hover table-sm">
+        <table class="table table-hover table-sm sort-table">
             <thead class="p-head">
                 <tr>
                     <th scope="col">Assignee</th>
