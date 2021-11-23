@@ -38,7 +38,7 @@ def login():
             is_id = Account.get(id)
 
             if is_id is None:
-                # registe db of account
+                # register accounts db
                 is_create = Account.create(id=id, pw=pw)
                 if is_create:
                     app.logger.info({'action': 'login', 'status': 'success'})
@@ -65,15 +65,13 @@ def home(id):
     account = Account.get(id)
     jira = APIClient(id=account.id, pw=account.pw)
     if jira:
-        # TODO(r.yagi) get limit from front end.
-        # limit = request.args.get('limit', type=int)
-        # app.logger.info({'limit': limit})
-        # if limit is None or limit < 1:
-        #     limit = 50
+        limit = request.args.get('limit', type=int)
+        app.logger.info({'limit': limit})
+        if limit is None or limit < 1:
+            limit = 50
         issues = jira.filter_issuetype(
                     jira.remove_one_status(
-                        jira.get_issues(), 'Closed'), 'Bug')
-        # << additional if condition >>
+                        jira.get_issues(limit=limit), 'Closed'), 'Bug')
         if issues:
             len_issues = len(issues)
         else:
@@ -85,6 +83,7 @@ def home(id):
             './home.html',
             id=id,
             issues=issues,
+            limit=limit,
             len_issues=len_issues,
             base_issues=base_issues,
             agn_story_point=agn_story_point)

@@ -7,11 +7,20 @@ Home - {{ super() }}
 $(function(){
     $('.sort-table').tablesorter();
 });
+
+function send_limit() {
+    document.limitform.submit()
+}
 </script>
 <div>
     <div class="row">
-        <div class="col-4 text-left">
-            <p id="hit">number of hit: {{ len_issues }}</p>
+        <div class="col-1">
+            <form action="/home/{{id}}" name="limitform" method="get">
+                <input type="text" id="limit" name="limit" style="width: 36px;" onchange="send_limit()">
+            </form>
+        </div>
+        <div class="col-3 text-left">
+            <p id="hit">number of hit: {{ len_issues }} / {{ limit }}</p>
         </div>
         <div class="col-8 text-right">
             <a class="btn btn-secondary btn-sm update-btn" href="{{url_for('update_prev_prog', id=id)}}" role="button" onclick="return confirm('前回進捗率を更新しますか？')">
