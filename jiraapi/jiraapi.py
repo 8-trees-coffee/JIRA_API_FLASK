@@ -6,7 +6,6 @@ from typing import Optional
 
 from jira import JIRA
 from jira.exceptions import JIRAError
-from sqlalchemy.sql.expression import false
 
 import settings
 

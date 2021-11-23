@@ -29,6 +29,9 @@ def login():
         id = request.form["login_id"]
         pw = request.form["password"]
         app.logger.info({'id': id, 'pw': pw})
+        if not id or not pw:
+            app.logger.warning({'id or pw is blank'})
+            return render_template('/login.html')
         jira = APIClient(id=id, pw=pw)
         if jira:
             app.logger.info({'action': 'login', 'status': 'access'})
