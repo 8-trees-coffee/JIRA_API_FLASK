@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -9,12 +10,13 @@ from flask import url_for
 from jiraapi.jiraapi import APIClient
 from app.models.accout import Account
 from app.models.issues import JiraIssue
+from app.models.forms import LoginForm
 import settings
 
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__,static_folder='../static', template_folder='../views')
-
+app.config['SECRET_KEY'] = b'\xe0\x9ed\\\xbaP\xfd\xba\x8b\xcdC\x1bV:p\xef\x0fp\xa2\x0cI\xb3k\xd3\r\x9a\x8a\xbc\x9e/;\xb1'
 
 @app.teardown_appcontext
 def remove_session(ex=None):
@@ -25,13 +27,11 @@ def remove_session(ex=None):
 @app.route('/', methods=['GET', 'POST'])
 def login():
     app.logger.info('login')
+    form = LoginForm(request.form)
     if request.method == 'POST':
         id = request.form["login_id"]
         pw = request.form["password"]
         app.logger.info({'id': id, 'pw': pw})
-        if not id or not pw:
-            app.logger.warning({'id or pw is blank'})
-            return render_template('/login.html')
         jira = APIClient(id=id, pw=pw)
         if jira:
             app.logger.info({'action': 'login', 'status': 'access'})
@@ -44,7 +44,7 @@ def login():
                     app.logger.info({'action': 'login', 'status': 'success'})
                 else:
                     app.logger.warning({'action': 'login', 'status': 'failed create date'})
-                    return render_template('/login.html')
+                    return render_template('/login.html', form=form)
             else:
                 # account data update if password changed
                 if is_id.pw != pw:
@@ -55,8 +55,8 @@ def login():
             return redirect(url_for('home', id=id))
         else:
             app.logger.warning({'action': 'login', 'status': 'failed login'})
-            return render_template('/login.html')
-    return render_template('/login.html')
+            return render_template('/login.html', form=form)
+    return render_template('/login.html', form=form)
 
 
 @app.route('/home/<string:id>')
@@ -90,7 +90,7 @@ def home(id):
             agn_story_point=agn_story_point)
     else:
         logger.warning({'action': 'home', 'status': 'failed login'})
-        return render_template('./login.html')
+        return redirect(url_for('login'))
 
 @app.route('/update/prev_prog/<string:id>')
 def update_prev_prog(id):
