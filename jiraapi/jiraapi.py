@@ -108,18 +108,16 @@ class APIClient(object):
             return story_point
         return None
 
-    def remove_closed_status(self, issues: List[Dict]) -> Optional[Dict]:
+    def remove_one_status(self, issues: List[Dict], remove_status: str) -> Optional[Dict]:
         if issues:
-            # TODO(r.yagi) modify status name
-            not_closed_list = [issue for issue in issues if issue['status'] != 'Closed']
-            return not_closed_list
+            removed_list = [issue for issue in issues if issue['status'] != remove_status]
+            return removed_list
         return None
 
-    def filter_issuetype_by_task(self, issues: List[Dict]) -> Optional[Dict]:
+    def filter_issuetype(self, issues: List[Dict], issuetype: str) -> Optional[Dict]:
         if issues:
-            # TODO(r.yagi) modify issuetype name
-            task_list = [issue for issue in issues if issue['issuetype'] == 'Bug']
-            return task_list
+            filtered_list = [issue for issue in issues if issue['issuetype'] == issuetype]
+            return filtered_list
         return None
 
 # https://jira.atlassian.com/rest/api/latest/search?jql=project=JRASERVER&maxResults=10
