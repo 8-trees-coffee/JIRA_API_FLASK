@@ -4,6 +4,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
+from flask import abort
 from jira import JIRA
 from jira.exceptions import JIRAError
 
@@ -17,15 +18,22 @@ class APIClient(object):
     def __init__(self, id, pw):
         self.id = id
         self.pw = pw
-        self.jira_server = settings.jira_server
         self.jira = self.access()
 
     def access(self):
         try:
-            jira = JIRA(server=self.jira_server)
+            jira = JIRA(server=settings.jira_server)
             logger.info({'id': self.id, 'pw': self.pw})
         except JIRAError as e:
             logger.error({'action': 'access', 'error': e})
+            if e.status_code == 401:
+                abort(401)
+            if e.status_code == 404:
+                abort(404)
+            if e.status_code == 500:
+                abort(500)
+            if e.status_code == 503:
+                abort(503)
             return False
         return jira
 
