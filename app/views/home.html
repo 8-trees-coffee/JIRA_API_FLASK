@@ -13,6 +13,11 @@ function send_limit() {
 }
 </script>
 <div>
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-primary text-center" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
     <div class="row">
         <div class="col-1">
             <form action="/home/{{id}}" name="limitform" method="get">
@@ -23,9 +28,10 @@ function send_limit() {
             <p id="hit">number of hit: {{ len_issues }} / {{ limit }}</p>
         </div>
         <div class="col-8 text-right">
-            <a class="btn btn-secondary btn-sm update-btn" href="{{url_for('update_prev_prog', id=id)}}" role="button" onclick="return confirm('前回進捗率を更新しますか？')">
-                update prev prog rate
-            </a>
+            <form action="/update/prev_prog/{{id}}" name="prev_prog_limit_form" method="get">
+                <input type="text" id="prev_prog_limit" name="prev_prog_limit" style="width: 36px;" onchange="send_prev_prog_limit()">
+                <button type="submit" class="btn btn-secondary btn-sm update-btn" onclick="return confirm('前回進捗率を更新しますか？')">update prev prog rate</button>
+            </form>
         </div>
     </div>
     <table id="prog-table" class="table table-hover table-sm sort-table">

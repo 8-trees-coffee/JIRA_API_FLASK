@@ -1,6 +1,7 @@
 from datetime import datetime
 import logging
 
+from flask import flash
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -100,9 +101,14 @@ def update_prev_prog(id):
         # reset all prev progress data
         JiraIssue.delete_all()
         app.logger.info('delete all data')
+        limit = request.args.get('prev_prog_limit', type=int)
+        app.logger.info({'prev_prog_limit': limit})
+        if limit is None or limit < 1:
+            limit = 50
         issues = jira.filter_issuetype(
                     jira.remove_one_status(
-                        jira.get_issues(), 'Closed'), 'Bug')
+                        jira.get_issues(limit=limit), 'Closed'), 'Bug')
+        flash(f'prov preg rate updated: {len(issues)}(num of searches: {limit})')
     else:
         logger.warning({'action': 'update_prev_prog', 'status': 'failed login'})
         return redirect(url_for('login'))
