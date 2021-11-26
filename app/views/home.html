@@ -29,7 +29,7 @@ function send_limit() {
         </div>
         <div class="col-8 text-right">
             <form action="/update/prev_prog/{{id}}" name="prev_prog_limit_form" method="get">
-                <input type="text" id="prev_prog_limit" name="prev_prog_limit" style="width: 36px;" onchange="send_prev_prog_limit()">
+                <input type="text" id="prev_prog_limit" name="prev_prog_limit" style="width: 36px;">
                 <button type="submit" class="btn btn-secondary btn-sm update-btn" onclick="return confirm('前回進捗率を更新しますか？')">update prev prog rate</button>
             </form>
         </div>
