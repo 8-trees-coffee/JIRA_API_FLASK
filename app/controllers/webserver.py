@@ -140,4 +140,4 @@ def service_unavailable(e):
     return render_template('503.html'), 503
 
 def start():
-    app.run(host='0.0.0.0', port=settings.web_port, threaded=True)
+    app.run(host='0.0.0.0', port=settings.web_port, threaded=True, debug=False)
