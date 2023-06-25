@@ -51,6 +51,8 @@ class APIClient(object):
                 # comment and comment updated
                 if len(self.jira.comments(issue)) > 0:
                     comment = self.jira.comment(issue.key, self.jira.comments(issue)[-1]).body
+                    comment = comment.replace('\r\n', '<br>')
+                    logger.info({'action': 'get_issues', 'comment': comment})
                     comment_dt = datetime.strptime(
                         self.jira.comment(issue.key, self.jira.comments(issue)[-1]).updated,
                         '%Y-%m-%dT%H:%M:%S.%f%z')
